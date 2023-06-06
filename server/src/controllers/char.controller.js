@@ -28,7 +28,26 @@ module.exports = {
             res.status(404).send(error.message)
         }
     },
-    getChar: async (req, res) => { },
+    getCharById: async (req, res) => {
+        try {
+            // Validate request
+            const { id } = req.params;
+            if (!id) throw new Error("id is missing")
+
+            // Get character by id
+            const char = await Character.findAll({
+                where: { id }
+            })
+
+            // Reply character
+            if (!char[0]) throw new Error("Character no found")
+            res.status(200).json(char[0])
+
+        } catch (error) {
+            // Reply error
+            res.status(404).send(error.message)
+        }
+    },
     getAllChar: async (req, res) => {
         try {
             // Get all characters

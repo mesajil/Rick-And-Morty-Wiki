@@ -5,7 +5,8 @@ module.exports = {
     postUser: async (req, res) => {
         try {
             // Validate request
-            const { email, password } = req.body;
+            const { name, email, password } = req.body;
+            if (!name) throw new Error("Name is missing")
             if (!email) throw new Error("Email is missing")
             if (!password) throw new Error("Password is missing")
 
@@ -22,5 +23,18 @@ module.exports = {
             // Reply error
             res.status(404).send(error.message)
         }
-    }
+    },
+    getUsers: async (req, res) => {
+        try {
+            // Get users
+            const users = await User.findAll()
+
+            // Reply users
+            res.status(200).json(users)
+
+        } catch (error) {
+            // Reply error
+            res.status(404).send(error.message)
+        }
+    },
 }

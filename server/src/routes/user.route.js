@@ -3,6 +3,7 @@ const router = require('express').Router();
 
 
 router.post('/', controller.postUser)
+router.get('/', controller.getUsers)
 
 
 

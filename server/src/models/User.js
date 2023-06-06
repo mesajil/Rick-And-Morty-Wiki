@@ -14,13 +14,16 @@ module.exports = (database) => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                defaultValue: "",
             },
             email: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                isEmail: true,
                 unique: true,
+                validate: {
+                    isEmail: {
+                        msg: 'Must be a valid email'
+                    },
+                }
             },
             password: {
                 type: DataTypes.STRING,
