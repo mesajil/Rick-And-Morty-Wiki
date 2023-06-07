@@ -22,9 +22,12 @@ UserModel(database)
 CharacterModel(database)
 
 
-// Associations
+// Association configuration
 const { User, Character } = database.models;
-User.belongsToMany(Character, { through: 'user_favorite' })
+User.belongsToMany(Character, {
+    through: 'user_favorite',
+    as: 'Favorite',
+})
 Character.belongsToMany(User, { through: 'user_favorite' })
 
 module.exports = {

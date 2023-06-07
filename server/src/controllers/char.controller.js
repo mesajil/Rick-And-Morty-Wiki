@@ -4,7 +4,7 @@ const { Character } = require('../../db.connection')
 module.exports = {
     postChar: async (req, res) => {
         try {
-            // Validate request
+            // Validate character data
             const {
                 name, status, species, gender, image
             } = req.body;
@@ -30,18 +30,19 @@ module.exports = {
     },
     getCharById: async (req, res) => {
         try {
-            // Validate request
+            // Validate id
             const { id } = req.params;
             if (!id) throw new Error("id is missing")
 
             // Get character by id
-            const char = await Character.findAll({
-                where: { id }
-            })
+            // const char = await Character.findAll({
+            //     where: { id }
+            // })
+            const char = await Character.findByPk(id)
 
             // Reply character
-            if (!char[0]) throw new Error("Character no found")
-            res.status(200).json(char[0])
+            if (!char) throw new Error("Character no found")
+            res.status(200).json(char)
 
         } catch (error) {
             // Reply error

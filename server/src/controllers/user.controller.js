@@ -4,7 +4,7 @@ const { User } = require('../../db.connection')
 module.exports = {
     postUser: async (req, res) => {
         try {
-            // Validate request
+            // Validate user data
             const { name, email, password } = req.body;
             if (!name) throw new Error("Name is missing")
             if (!email) throw new Error("Email is missing")
@@ -31,6 +31,47 @@ module.exports = {
 
             // Reply users
             res.status(200).json(users)
+
+        } catch (error) {
+            // Reply error
+            res.status(404).send(error.message)
+        }
+    },
+    getUserById: async (req, res) => {
+        try {
+            // Validate id
+            const { id } = req.params;
+            if (!id) throw new Error("Id is missing")
+
+            // Find user
+            const user = await User.findByPk(id)
+            if (!user) throw new Error("Character no found")
+
+            // Reply user
+            res.status(200).json(user)
+
+        } catch (error) {
+            // Reply error
+            res.status(404).send(error.message)
+        }
+    },
+    deleteUser: async (req, res) => {
+        try {
+            // Validate id
+            const { id } = req.params;
+            if (!id) throw new Error("Id is missing")
+
+            // Find user
+            const user = await User.findByPk(id)
+            if (!user) throw new Error("Character no found")
+
+            // Delete user
+            await User.destroy({
+                where: { id }
+            })
+
+            // Reply user
+            res.status(200).json(user)
 
         } catch (error) {
             // Reply error

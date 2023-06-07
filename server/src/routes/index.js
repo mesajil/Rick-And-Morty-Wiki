@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const userRouter = require('./user.route')
 const loginRouter = require('./login.route')
 const charRouter = require('./char.route')
+const favRouter = require('./fav.route')
 const server = express()
 
 
@@ -15,10 +16,11 @@ server.use(express.json())
 server.use("/user", userRouter)
 server.use("/login", loginRouter)
 server.use("/character", charRouter)
+server.use("/favorite", favRouter)
 
 // Handle requests to unknown routes
 server.all('*', (req, res) => {
-    res.status(404).send(`Unknown route: ${req.originalUrl}`);
+    res.status(404).send(`Unknown route: ${req.method} ${req.originalUrl}`);
 });
 
 
